@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Cors;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -128,7 +126,7 @@ namespace WebApi.Providers
         }
 
         //called when HTTP GET /Token with "grant_type" of "refresh_token"
-        public override async Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
             var originalClient = context.Ticket.Properties.Dictionary[Constants.KEY_CLIENT_ID];
             var currentClient = context.ClientId;
@@ -137,7 +135,7 @@ namespace WebApi.Providers
             if (originalClient != currentClient)
             {
                 context.SetError(Constants.INVALID_CLIENT_ID, "Refresh token is issued to a different clientId.");
-                return;
+                return Task.FromResult<object>(null);
             }
 
             // Change auth ticket for refresh token requests
@@ -149,12 +147,14 @@ namespace WebApi.Providers
             //newIdentity.AddClaim(new Claim("newClaim", "newValue"));
 
             var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
-            context.Validated(newTicket);
+            context.Validated(newTicket); 
+            
+            return Task.FromResult<object>(null);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
-            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            foreach (var property in context.Properties.Dictionary)
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
