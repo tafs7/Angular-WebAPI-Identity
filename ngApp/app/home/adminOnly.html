@@ -1,0 +1,9 @@
+﻿<section data-ng-controller="adminOnlyController as vm">
+    <h2>{{ vm.title }}</h2>
+    This page only available to admin users.
+    <br />
+    <button class="btn btn-danger" data-ng-click="vm.getPeople()">Call Get People</button> (Tested when not log in)
+    <ul ng-show="vm.people">
+        <li ng-repeat="p in vm.people">{{ p.firstName }} {{ p.lastName }} (username: {{ p.userName }})</li>
+    </ul>
+</section>

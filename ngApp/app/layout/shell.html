@@ -1,0 +1,49 @@
+﻿<div data-ng-controller="shellController as vm">
+    <div id="splash-page" data-ng-show="vm.showSplash" class="dissolve-animation">
+        <div class="page-splash">
+            <div class="page-splash-message">
+                SHELL Test Application
+            </div>
+            <div class="progress progress-striped active page-progress-bar">
+                <div class="bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top"
+         role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="btn btn-success navbar-toggle"
+                        data-ng-click="navbarExpanded = !navbarExpanded">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
+                <ul class="nav navbar-nav navbar-right">
+                    <li data-ng-hide="!vm.authentication.isAuth">
+                        <a href="#">Welcome {{vm.authentication.firstName}}</a>
+                    </li>
+                    <li data-ng-repeat="r in vm.navRoutes">
+                        <a href="#{{r.url}}" data-ng-bind-html="r.config.settings.content" data-ng-hide="!vm.displayNav(r)"></a>
+                    </li>
+                    <li data-ng-hide="!vm.authentication.isAuth">
+                        <a href="" data-ng-click="vm.logOut()">Logout</a>
+                    </li>
+                    <li data-ng-hide="vm.authentication.isAuth">
+                        <a href="#/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top:45px;">
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+        <div data-ng-view="" class="shuffle-animation">
+        </div>
+    </div>
+</div>
