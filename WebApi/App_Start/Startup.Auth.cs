@@ -37,7 +37,7 @@ namespace WebApi
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 RefreshTokenProvider = new ApplicationRefreshTokenProvider(),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(5), //short expiration for security
 #if DEBUG
                 AllowInsecureHttp = true
 #endif
