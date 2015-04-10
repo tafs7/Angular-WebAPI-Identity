@@ -27,7 +27,8 @@
 
         return service;
 
-        //private methods
+        /////////// PRIVATE METHODS ///////////////////////
+
         function login(loginData) {
 
             var loginPromise = authDataService.login(loginData)

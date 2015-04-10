@@ -1,11 +1,13 @@
 ﻿<section>
     <form class="form-login" role="form">
         <h2 class="form-login-heading">Login</h2>
-        <input type="text" class="form-control" placeholder="Username" data-ng-model="loginData.userName" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" data-ng-model="loginData.password" required>
-        <button class="btn btn-info" type="submit" data-ng-click="loginUser()">Login</button>
-        <div data-ng-hide="message == ''" class="alert alert-danger">
-            {{message}}
+        <input type="text" class="form-control" placeholder="Username" data-ng-model="vm.loginData.userName" required autofocus>
+        <br/>
+        <input type="password" class="form-control" placeholder="Password" data-ng-model="vm.loginData.password" required>
+        <br/>
+        <button class="btn btn-info" type="submit" data-ng-click="vm.loginUser()">Login</button>
+        <div data-ng-hide="vm.message === ''" class="alert alert-danger">
+            {{vm.message}}
         </div>
     </form>
     <div>
@@ -14,12 +16,12 @@
         <br />
         Pwd: Admin@123456
         <br />
-        <button class="btn btn-default input-sm" data-ng-click="useAdmin()">Use Admin</button>
+        <button class="btn btn-default input-sm" data-ng-click="vm.useAdmin()">Login As Admin</button>
         <h5>User</h5>
         Uid: user@example.com
         <br />
         Pwd: User@123456
         <br />
-        <button class="btn btn-default input-sm" data-ng-click="useUser()">Use User</button>
+        <button class="btn btn-default input-sm" data-ng-click="vm.useUser()">Login As User</button>
     </div>
 </section>

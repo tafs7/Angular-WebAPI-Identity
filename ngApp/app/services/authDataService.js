@@ -3,74 +3,76 @@
 
     angular
         .module('app')
-        .factory('authDataService', ['$http', '$q', 'common', 'config',
-            function($http, $q, common, config) {
+        .factory('authDataService', ['$http', '$q', 'common', 'config', authDataService]);
 
-                var service = {
-                    login: login,
-                    logout: logout,
-                    refreshToken: refreshToken,
-                    getUserInfo: getUserInfo,
-                    getPeople: getPeople,
-                };
+    function authDataService($http, $q, common, config) {
 
-                return service;
+        var service = {
+            login: login,
+            logout: logout,
+            refreshToken: refreshToken,
+            getUserInfo: getUserInfo,
+            getPeople: getPeople,
+        };
 
-                function login(loginData) {
-                    var url = common.serviceUrl(config.apiServices.login);
+        return service;
 
-                    var data = "grant_type=password&username=" + loginData.userName
-                        + "&password=" + loginData.password
-                        + "&client_id=" + config.clientId
-                        + "&origin_token=" + loginData.origin;
+        //////////// PRIVATE METHODS //////////////
 
-                    var header = { 'Content-Type': 'application/x-www-form-urlencoded' };
+        function login(loginData) {
+            var url = common.serviceUrl(config.apiServices.login);
 
-                    var deferred = $q.defer();
+            var data = "grant_type=password&username=" + loginData.userName
+                + "&password=" + loginData.password
+                + "&client_id=" + config.clientId
+                + "&origin_token=" + loginData.origin;
 
-                    $http.post(url, data, { headers: header })
-                        .success(function(response) {
-                            deferred.resolve(response);
-                        })
-                        .error(function(error, status) {
-                            deferred.reject(error);
-                        });
+            var header = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
-                    return deferred.promise;
-                }
+            var deferred = $q.defer();
 
-                function logout() {
-                    var url = common.serviceUrl(config.apiServices.account) + "Logout";
-                    return $http.post(url);
-                }
+            $http.post(url, data, { headers: header })
+                .success(function(response) {
+                    deferred.resolve(response);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
 
-                function refreshToken(token, origin) {
+            return deferred.promise;
+        }
 
-                    var url = common.serviceUrl(config.apiServices.login);
-                    var data = "grant_type=refresh_token&refresh_token=" + token + "&client_id=" + config.clientId + "&origin_token=" + origin;
-                    var header = { 'Content-Type': 'application/x-www-form-urlencoded' };
+        function logout() {
+            var url = common.serviceUrl(config.apiServices.account) + "Logout";
+            return $http.post(url);
+        }
 
-                    var deferred = $q.defer();
+        function refreshToken(token, origin) {
 
-                    $http.post(url, data, { headers: header })
-                        .success(function(response) {
-                            deferred.resolve(response);
-                        }).error(function(err, status) {
-                            deferred.reject(err);
-                        });
+            var url = common.serviceUrl(config.apiServices.login);
+            var data = "grant_type=refresh_token&refresh_token=" + token + "&client_id=" + config.clientId + "&origin_token=" + origin;
+            var header = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
-                    return deferred.promise;
-                }
+            var deferred = $q.defer();
 
-                function getPeople() {
-                    var url = common.serviceUrl(config.apiServices.account) + 'Tenants';
-                    return $http.get(url);
-                }
+            $http.post(url, data, { headers: header })
+                .success(function(response) {
+                    deferred.resolve(response);
+                }).error(function(err) {
+                    deferred.reject(err);
+                });
 
-                function getUserInfo() {
-                    var url = common.serviceUrl(config.apiServices.account) + 'LocalUserInfo';
-                    return $http.get(url);
-                }
-            }
-        ]);
+            return deferred.promise;
+        }
+
+        function getPeople() {
+            var url = common.serviceUrl(config.apiServices.account) + 'Tenants';
+            return $http.get(url);
+        }
+
+        function getUserInfo() {
+            var url = common.serviceUrl(config.apiServices.account) + 'LocalUserInfo';
+            return $http.get(url);
+        }
+    }
 })();

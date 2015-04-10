@@ -5,21 +5,20 @@
 
     angular
         .module('app')
-        .controller(controllerId, ['authDataService', 'common',
-            function (authDataService, common) {
-                /* jshint validthis:true */
-                var vm = this;
-                vm.title = 'about';
+        .controller(controllerId, ['authDataService', 'common', aboutController]);
 
-                activate();
+    function aboutController(authDataService, common) {
+        /* jshint validthis:true */
+        var vm = this;
+        vm.title = 'about';
 
-                function activate() {
-                    common
-                        .activateController([], controllerId)
-                        .then(function() {
+        activate();
 
-                        });
-                }
-            }
-        ]);
+        function activate() {
+            common.activateController([], controllerId)
+                .then(function() {
+                    //do something
+                });
+        }
+    }
 })();

@@ -65,6 +65,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\config.logging.js" />
+    <Content Include="app\config.interceptors.js" />
+    <Content Include="app\app.run.js" />
     <Content Include="app\app.js" />
     <Content Include="app\common\common.js" />
     <Content Include="app\common\logger.js" />

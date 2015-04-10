@@ -1,15 +1,13 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('app');
+    angular
+        .module('app')
+        .config(['$provide', exceptionDecorator]);
 
-    // Configure by setting an optional string value for appErrorPrefix.
-    // Accessible via config.appErrorPrefix (via config value).
-
-    app.config(['$provide', function ($provide) {
-        $provide.decorator('$exceptionHandler',
-            ['$delegate', 'config', 'logger', extendExceptionHandler]);
-    }]);
+    function exceptionDecorator($provide) {
+        $provide.decorator('$exceptionHandler', ['$delegate', 'config', 'logger', extendExceptionHandler]);
+    }
 
     // Extend the $exceptionHandler service to also display a toast.
     function extendExceptionHandler($delegate, config, logger) {

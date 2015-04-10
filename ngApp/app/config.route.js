@@ -1,13 +1,10 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('app');
-
-    // Collect the routes
-    app.constant('routes', getRoutes());
-
-    // Configure the routes and route resolvers
-    app.config(['$routeProvider', 'routes', routeConfigurator]);
+    angular
+        .module('app')
+        .constant('routes', getRoutes()) // Collect the routes
+        .config(['$routeProvider', 'routes', routeConfigurator]); // Configure the routes and route resolvers
 
     function routeConfigurator($routeProvider, routes) {
 
@@ -67,6 +64,7 @@
                 config: {
                     title: 'Home',
                     templateUrl: 'app/home/home.html',
+                    controller: 'homeController as vm',
                     settings: {
                         nav: 1,
                         loginRequired: false,
@@ -80,6 +78,7 @@
                 config: {
                     title: 'About',
                     templateUrl: 'app/home/about.html',
+                    controller: 'aboutController as vm',
                     settings: {
                         nav: 2,
                         loginRequired: false,
@@ -93,6 +92,7 @@
                 config: {
                     title: 'Admins - ONLY!',
                     templateUrl: 'app/home/adminOnly.html',
+                    controller: 'adminOnlyController as vm',
                     settings: {
                         nav: 3,
                         loginRequired: true,
@@ -106,9 +106,8 @@
                 config: {
                     title: 'Login',
                     templateUrl: 'app/users/login.html',
-                    controller: 'loginController',
-                    settings: {
-                    }
+                    controller: 'loginController as vm',
+                    settings: {}
                 }
             },
             {
@@ -116,8 +115,8 @@
                 config: {
                     title: 'Not Authorized',
                     templateUrl: 'app/home/notauthorized.html',
-                    settings: {
-                    }
+                    controller: 'notauthorizedController as vm',
+                    settings: {}
                 }
             }
         ];

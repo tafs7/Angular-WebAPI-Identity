@@ -5,10 +5,8 @@
 
     angular
         .module('app')
-        .factory(serviceId, routemediator);
-
-    routemediator.$inject = ['$rootScope', '$location', 'logger', 'config'];
-
+        .factory(serviceId, ['$rootScope', '$location', 'logger', 'config', routemediator]);
+    
     function routemediator($rootScope, $location, logger, config) {
 
         var handleRouteChangeError = false;
@@ -18,6 +16,8 @@
         };
 
         return service;
+
+        ////////////// PRIVATE METHODS //////////////////
 
         function setRoutingHandlers() {
             updateDocTitle();
@@ -40,7 +40,7 @@
 
         function updateDocTitle() {
             $rootScope.$on('$routeChangeSuccess',
-                function (event, current, previous) {
+                function (event, current) {
                     handleRouteChangeError = false;
                     var title = config.docTitle + ' ' + (current.title || '');
                     $rootScope.title = title;

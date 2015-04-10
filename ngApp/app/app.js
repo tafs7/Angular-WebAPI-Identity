@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('app', [
+    angular.module('app', [
         // Angular modules 
         'ngAnimate',        // animations
         'ngRoute',          // routing
@@ -16,19 +16,4 @@
         'LocalStorageModule'
     ]);
 
-    app.config(['$httpProvider', 'localStorageServiceProvider', function ($httpProvider, localStorageServiceProvider) {
-        $httpProvider.interceptors.push('authInterceptorService');
-        localStorageServiceProvider
-            .setPrefix('spa')
-            .setStorageType('sessionStorage');
-    }]);
-
-    // Handle routing errors and success events
-    app.run(['$route', 'routemediator',
-        function ($route, routemediator) {
-            // Include $route to kick start the router.   
-
-            routemediator.setRoutingHandlers();
-        }
-    ]);
 })();

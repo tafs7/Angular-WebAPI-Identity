@@ -5,11 +5,10 @@
 
     angular
         .module('app')
-        .controller(controllerId, shell);
-
-    shell.$inject = ['$rootScope', 'authenticator', 'common', 'config', 'routes'];
+        .controller(controllerId, ['$rootScope', 'authenticator', 'common', 'config', 'routes', shell]);
 
     function shell($rootScope, authenticator, common, config, routes) {
+
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'shell';
@@ -33,6 +32,8 @@
 
         activate();
 
+        //////////////////////////////////
+
         function activate() {
             getNavRoutes();
             common.activateController([], controllerId).then(function () {
@@ -41,22 +42,21 @@
             });
         }
 
+
+        //The logic below is very similar to the logic in the config.route.js 
+        //checkSecurity function. It should probably be combined into a 
+        //common function
         function displayNav(r) {
-            var okayToGo = false;
-            //The logic below is very similar to the logic in the config.route.js 
-            //checkSecurity function. It should probably be combined into a 
-            //common function
-            var settings = r.config.settings;
-            var loginRequired = settings.loginRequired || false;
-            var roles = settings.roles || [];
+
+            var okayToGo = false,
+                settings = r.config.settings,
+                loginRequired = settings.loginRequired || false,
+                roles = settings.roles || [];
+
             if (loginRequired) {
-                if (!authenticator.authData.isAuth) {
-                    //nothing to do
-                } else {
+                if (authenticator.authData.isAuth) {
                     if (roles.length > 0) {
-                        if (!common.checkRole(authenticator.authData.roles, roles)) {
-                            //nothing to do
-                        } else {
+                        if (common.checkRole(authenticator.authData.roles, roles)) {
                             okayToGo = true;
                         }
                     } else {
@@ -84,13 +84,13 @@
         function toggleSpinner(on) { vm.isBusy = on; }
 
         $rootScope.$on('$routeChangeStart',
-            function (event, next, current) {
+            function () {
                 toggleSpinner(true);
             }
         );
 
         $rootScope.$on(config.events.controllerActivateSuccess,
-            function (data) {
+            function () {
                 toggleSpinner(false);
             }
         );
